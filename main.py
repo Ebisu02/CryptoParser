@@ -67,7 +67,8 @@ def parse(currency_list):
     if html.status_code == 200:
         get_content(html.text, currency_list)
     else:
-        print("")
+        print("Something went wrong"
+              "Traceback: parse()")
 
 if __name__ == '__main__':
     currency_list = []
