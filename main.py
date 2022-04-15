@@ -11,10 +11,9 @@ def get_html(url):
     return r
 
 
-def get_content(html):
+def get_content(html, currency_list):
     soup = BeautifulSoup(html, "html.parser")
     coins = soup.find("tbody").find_all("tr")
-    currency_list = []
     for coin in coins:
         name = coin.find(class_="cmc-link").get("href").replace("/currencies/", "")[:-1]
         price = coin.find(class_="sc-131di3y-0 cLgOOr")
@@ -30,13 +29,6 @@ def get_content(html):
         else:
             break
     print_list(currency_list)
-    print("\n\n\nresults of searching in list:")
-    key = 'bitcoin'
-    find_by_name_in_list(currency_list, key)
-    key = 'xrp'
-    find_by_name_in_list(currency_list, key)
-    key = 'solana'
-    find_by_name_in_list(currency_list, key)
 
 
 def find_by_name_in_list(lst, key):
@@ -51,12 +43,20 @@ def print_list(lst):
         print(str['Name'] + ":  " + str['Price'] + "   " + str['Market-Cap'])
 
 
-def parse():
+def parse(currency_list):
     html = get_html(URL)
     if html.status_code == 200:
-        get_content(html.text)
+        get_content(html.text, currency_list)
     else:
         print("")
 
+if __name__ == '__main__':
+    currency_list = []
+    parse(currency_list)
+    key = input('Enter F to find crypto coin by name, Q to quit\nInput: ')
+    while key!= 'Q':
+        if key == 'F':
+            crypto_coin_name = input('Enter a crypto coin name to get info\nInput: ')
+            find_by_name_in_list(currency_list, crypto_coin_name)
 
-parse()
+        key = input('Enter F to find crypto coin by name, Q to quit\nInput: ')
