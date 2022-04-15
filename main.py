@@ -32,9 +32,28 @@ def get_content(html, currency_list):
 
 
 def find_by_name_in_list(lst, key):
-    for str in lst:
-        if (str['Name'] == key):
-            print(str['Name'] + ":  " + str['Price'] + "   " + str['Market-Cap'])
+    # for str in lst:
+       # if (str['Name'] == key):
+           # print(str['Name'] + ":  " + str['Price'] + "   " + str['Market-Cap'])
+    first_index = 0
+    last_index = len(lst) - 1
+    index = -1
+    lst_copy = sorted(lst, key=lambda x: x['Name'])
+    middle_index = int((first_index + last_index) / 2)
+    while (first_index <= last_index):
+        if lst_copy[middle_index]['Name'] == key:
+            index = middle_index
+            break
+        elif lst_copy[middle_index]['Name'] > key:
+            last_index = middle_index - 1
+            middle_index = int((first_index + last_index) / 2)
+        else:
+            first_index = middle_index + 1
+            middle_index = int((first_index + last_index) / 2)
+    if index == -1:
+        print(f"Cant find info about crypto coin named {key}")
+    else:
+        print(lst_copy[index]['Name'] + ":  " + lst_copy[index]['Price'] + "  " + lst_copy[index]['Market-Cap'])
 
 
 def print_list(lst):
